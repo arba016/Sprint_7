@@ -1,6 +1,7 @@
 import allure
 import requests
-from data import LOGIN_COURIER_URL
+import pytest
+from data import LOGIN_COURIER_URL, COURIER_NOT_FOUND_ERROR, LOGIN_REQUIRED_FIELDS_ERROR_MESSAGE, WITHOUT_LOGIN, WITHOUT_PASSWORD
 
 
 class TestLoginCourier:
@@ -13,32 +14,15 @@ class TestLoginCourier:
         assert "id" in response.json()
 
     @allure.title(
-        "Пользователь не может авторизоваться если при авторизации не указан login"
+        "Пользователь не может авторизоваться если не указано обязательное поле"
     )
-    def test_login_without_login(self):
-        payload = {"password": "password"}
+    @pytest.mark.parametrize("payload", [WITHOUT_LOGIN, WITHOUT_PASSWORD])
+    def test_login_without_required_field(self, payload):
 
         response = requests.post(LOGIN_COURIER_URL, json=payload)
 
         assert response.status_code == 400
-        assert response.json() == {
-            "code": 400,
-            "message": "Недостаточно данных для входа",
-        }
-
-    @allure.title(
-        "Пользователь не может авторизоваться если при авторизации не указан password"
-    )
-    def test_login_without_password(self, new_courier):
-        payload = {"login": new_courier["login"]}
-
-        response = requests.post(LOGIN_COURIER_URL, json=payload)
-
-        assert response.status_code == 400
-        assert response.json() == {
-            "code": 400,
-            "message": "Недостаточно данных для входа",
-        }
+        assert response.json()["message"] == LOGIN_REQUIRED_FIELDS_ERROR_MESSAGE
 
     @allure.title("Нельзя авторизоваться под несуществующим пользователем")
     def test_login_courier_with_incorrect_login_and_password(self):
@@ -50,10 +34,7 @@ class TestLoginCourier:
         response = requests.post(LOGIN_COURIER_URL, json=payload)
 
         assert response.status_code == 404
-        assert response.json() == {
-            "code": 404,
-            "message": "Учетная запись не найдена",
-        }
+        assert response.json()["message"] == COURIER_NOT_FOUND_ERROR
 
     @allure.title("Нельзя авторизоваться с неправильным паролем")
     def test_login_courier_with_incorrect_password(self, new_courier):
@@ -65,7 +46,4 @@ class TestLoginCourier:
         response = requests.post(LOGIN_COURIER_URL, json=payload)
 
         assert response.status_code == 404
-        assert response.json() == {
-            "code": 404,
-            "message": "Учетная запись не найдена",
-        }
+        assert response.json()["message"] == COURIER_NOT_FOUND_ERROR

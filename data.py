@@ -1,3 +1,4 @@
+
 BASE_URL = "https://qa-scooter.praktikum-services.ru"
 
 CREATE_COURIER_URL = f"{BASE_URL}/api/v1/courier"
@@ -56,3 +57,22 @@ ORDER_BLACK_AND_GRAY_SCOOTER = {
     "comment": "Saske, come back to Konoha",
     "color": ["BLACK", "GREY"],
 }
+
+
+WITHOUT_LOGIN = {
+    "password": "1234",
+    "firstName": "saske",
+}
+
+WITHOUT_PASSWORD = {
+    "login": "ninja_without_password",
+    "firstName": "saske",
+}
+
+
+RESPONSE_JSON_MESSAGE_OK = {"ok": True}
+COURIER_REQUIRED_FIELDS_ERROR = "Недостаточно данных для создания учетной записи"
+COURIER_ALREADY_EXISTS_ERROR = "Этот логин уже используется. Попробуйте другой."
+COURIER_NOT_FOUND_ERROR = "Учетная запись не найдена"
+LOGIN_REQUIRED_FIELDS_ERROR_MESSAGE = "Недостаточно данных для входа"
+

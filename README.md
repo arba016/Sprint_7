@@ -51,6 +51,7 @@ pytest
 Запустить тесты с генерацией данных для Allure-отчёта:
 
 pytest --alluredir=allure_results
+
 Просмотр Allure-отчёта
 
 Открыть Allure-отчёт:

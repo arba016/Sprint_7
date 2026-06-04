@@ -1,5 +1,6 @@
 import requests
 import pytest
+import allure
 from data import (
     CREATE_ORDER_URL,
     ORDER_GREY_SCOOTER,
@@ -20,7 +21,8 @@ class TestCreateOrder:
             (ORDER_BLACK_AND_GRAY_SCOOTER),
         ],
     )
-    def test_create_order_black_scooter(self, color):
+    @allure.title("Создание заказа самоката с разными вариантами цвета")
+    def test_create_order_scooter(self, color):
 
         response = requests.post(CREATE_ORDER_URL, json=color)
 
