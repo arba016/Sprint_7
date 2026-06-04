@@ -1,9 +1,6 @@
 import allure
 import requests
-import random
-import string
-
-from data import CREATE_COURIER_URL, LOGIN_COURIER_URL, DELETE_COURIER_URL
+from data import LOGIN_COURIER_URL
 
 
 class TestLoginCourier:
