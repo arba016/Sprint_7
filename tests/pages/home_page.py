@@ -8,10 +8,7 @@ from tests.pages.base_page import BasePage
 class HomePage(BasePage):
     MAIN_HEADING = (By.XPATH, "//h1[contains(normalize-space(), 'Витрина ТВ')]")
     META_DESCRIPTION = (By.CSS_SELECTOR, "meta[name='description']")
-    COOKIE_NOTICE = (
-        By.XPATH,
-        "//*[contains(normalize-space(), 'обработки cookie-файлов')]",
-    )
+    COOKIE_NOTICE = (By.ID, "accept-agreements-container")
     COOKIE_ACCEPT_BUTTON = (By.ID, "accept-agreements-button")
     PRIVACY_POLICY_LINK = (
         By.XPATH,
@@ -19,10 +16,7 @@ class HomePage(BasePage):
     )
     COMPANY_LINK = (By.XPATH, "//a[normalize-space()='О компании']")
     CONTACTS_LINK = (By.XPATH, "//a[normalize-space()='Контакты']")
-    SCHEDULE_FALLBACK = (
-        By.XPATH,
-        "//*[contains(normalize-space(), 'Расписание телеканала')]",
-    )
+    SCHEDULE_FALLBACK = (By.CSS_SELECTOR, ".programme-error")
 
     def load(self, base_url):
         self.open(base_url)
