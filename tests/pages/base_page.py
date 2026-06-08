@@ -1,4 +1,5 @@
 from selenium.common.exceptions import TimeoutException
+from selenium.webdriver.common.by import By
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.support.ui import WebDriverWait
 
@@ -26,6 +27,9 @@ class BasePage:
     def find(self, locator):
         return self.wait.until(EC.visibility_of_element_located(locator))
 
+    def find_present(self, locator):
+        return self.wait.until(EC.presence_of_element_located(locator))
+
     def find_all(self, locator):
         return self.driver.find_elements(*locator)
 
@@ -40,5 +44,16 @@ class BasePage:
         return True
 
     def text_is_visible(self, text):
-        locator = ("xpath", f"//*[contains(normalize-space(), {xpath_literal(text)})]")
-        return self.is_visible(locator)
+        try:
+            self.short_wait.until(lambda driver: text in driver.find_element(By.TAG_NAME, "body").text)
+        except TimeoutException:
+            return False
+        return True
+
+    def text_is_present_in_dom(self, text):
+        locator = (By.XPATH, f"//*[contains(normalize-space(), {xpath_literal(text)})]")
+        try:
+            self.short_wait.until(EC.presence_of_element_located(locator))
+        except TimeoutException:
+            return False
+        return True
